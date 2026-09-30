@@ -104,77 +104,7 @@ The migration needs to:
 
 # 🏗 Solution Architecture
 
-The migration follows this architecture:
-
-```text
-┌──────────────────────────────┐
-│   LOCAL / ON-PREMISES        │
-│                              │
-│  Dockerized MySQL 8.0        │
-│  hospital_db                 │
-│                              │
-│  ┌────────────────────────┐  │
-│  │ patients               │  │
-│  │ encounters             │  │
-│  │ payers                 │  │
-│  │ procedures             │  │
-│  └────────────────────────┘  │
-└──────────────┬───────────────┘
-               │
-               │ TCP
-               ▼
-       ┌─────────────────┐
-       │   ngrok TCP     │
-       │     Tunnel      │
-       └────────┬────────┘
-                │
-                │
-════════════════════════════════════════════
-                 AWS CLOUD
-════════════════════════════════════════════
-                │
-                ▼
-       ┌──────────────────────┐
-       │      AWS DMS         │
-       │                      │
-       │ Replication Instance │
-       │        +             │
-       │ Migration Task       │
-       └──────────┬───────────┘
-                  │
-                  │ Full Load
-                  ▼
-       ┌──────────────────────┐
-       │ Amazon RDS           │
-       │ PostgreSQL           │
-       │                      │
-       │     postgres         │
-       └──────────────────────┘
-
-        ┌──────────────────────┐
-        │      AWS SCT         │
-        │                      │
-        │ MySQL Schema         │
-        │        ↓             │
-        │ PostgreSQL Schema    │
-        └──────────────────────┘
-
-                  │
-                  ▼
-       ┌──────────────────────┐
-       │      DBeaver         │
-       │                      │
-       │ Source vs Target     │
-       │ Data Validation      │
-       └──────────────────────┘
-
-       ┌──────────────────────┐
-       │    GitHub Actions     │
-       │                      │
-       │ JSON Validation      │
-       │ SQL Checks           │
-       │ Docker Validation    │
-       └──────────────────────┘
+![Hospital Database Migration Architecture](docs/screenshots/migration-architecture.png)
 ```
 
 ### Architecture Flow
