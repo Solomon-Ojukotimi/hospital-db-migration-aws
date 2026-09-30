@@ -1,0 +1,9 @@
+```json
+{
+  "DatabaseName": "postgres",
+  "Port": 5432,
+  "ServerName": "<RDS_ENDPOINT>",
+  "Username": "<DB_USERNAME>",
+  "AuthenticationMethod": "password"
+}
+```

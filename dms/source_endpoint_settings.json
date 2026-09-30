@@ -1,0 +1,9 @@
+```json
+{
+  "DatabaseName": "hospital_db",
+  "Port": "<NGROK_PORT>",
+  "ServerName": "<NGROK_HOST>",
+  "Username": "<DB_USERNAME>",
+  "AuthenticationMethod": "password"
+}
+```

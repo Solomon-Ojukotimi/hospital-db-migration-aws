@@ -1,0 +1,42 @@
+name: Migration Project CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Validate JSON files
+        run: |
+          python -m json.tool dms/source_endpoint_settings.json
+          python -m json.tool dms/target_endpoint_settings.json
+          python -m json.tool dms/table_mappings.json
+
+      - name: Validate Docker Compose
+        run: docker compose config
+
+      - name: Check SQL files
+        run: |
+          test -f schema/mysql_schema.sql
+          test -f schema/postgres_schema.sql
+          test -f validation/row_count_validation.sql
+
+      - name: Validate project structure
+        run: |
+          test -d dms
+          test -d schema
+          test -d validation
+          test -d docs/screenshots
+
+      - name: CI validation complete
+        run: echo "Migration project validation passed!"
